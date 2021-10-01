@@ -2,6 +2,19 @@ package main
 
 import "gorm.io/gorm"
 
+// Model
+type User struct {
+	Id    uint `gorm:"primarykey"`
+	Name  string
+	Email string `gorm:"uniqueIndex"`
+}
+
+func (user *User) TableName() string {
+	return "User"
+}
+
+// Service
+
 type basicUserCrud struct {
 	db *gorm.DB
 }
@@ -30,7 +43,7 @@ func (it *basicUserCrud) delete(id uint) error {
 }
 
 func newBasicUserCrud() *basicUserCrud {
-	db := getSQLiteGormDBMust("user.db")
+	db := getSQLiteGormDBMust(dbName)
 	return &basicUserCrud{
 		db: db,
 	}

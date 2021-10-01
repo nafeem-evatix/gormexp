@@ -11,5 +11,6 @@ func getSQLiteGormDBMust(filename string) *gorm.DB {
 		panic(err)
 	}
 
+	db.Exec("PRAGMA foreign_keys=ON;")
 	return db
 }

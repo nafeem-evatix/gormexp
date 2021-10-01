@@ -6,7 +6,26 @@ import (
 
 func main() {
 	fmt.Println("gormexp")
-	testBasicUserCrud()
+	// testBasicUserCrud()
+	testOneToOneCrud()
+}
+
+func testOneToOneCrud() {
+	basicOneToOne := newBasicOneToOneCrud()
+	handleError(basicOneToOne.migrate())
+	person := &Person{
+		Name:  "ABC",
+		NID:   &NID{
+			Number: "11122223333",
+		},
+	}
+
+	handleError(basicOneToOne.createPerson(person))
+	fmt.Println(basicOneToOne.getPerson(person.Id))
+	fmt.Println(basicOneToOne.getPersonWithNIDPreload(person.Id).NID)
+
+	fmt.Println(basicOneToOne.getNIDWithPersonPreload(1).Person)
+	handleError(basicOneToOne.deletePerson(person.Id))
 }
 
 func testBasicUserCrud() {
